@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>    
+        <link rel="stylesheet" href="css/solar.css">
+        
+    </head>
+    <body>
+
+
+        <div ng-app="SolarCalculatorApp" ng-controller="solcarController" class="container" ng-cloak>
+            <div class="page-header">
+                <h1>Oorjan</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1>Input</h1>
+                    <form name="form" role="form" >
+                        <div class="form-group">
+                            <label >Loaction: </label>
+                                <select ng-model="selectedCity" ng-options="x.city for x in locations" class="form-control" required></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Roof Size:</label>
+                                <input type="number" class="form-control"  placeholder="Sq ft" ng-model="roofsize" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Electricity units consumed / month</label>
+                                <input type="number" class="form-control"  placeholder="User input based on electricity bill (kWH)" ng-model="units" required>
+                        </div>
+                        <div class="form-group">
+                            <button ng-disabled="!form.$valid" type="button" class="btn btn-default form-control" ng-click="submit()" >submit</button>
+                        </div>
+                    </form>
+
+
+                    <div ng-show="formSubmitted" >
+                        <div class="form-group">
+                            <label >Loan Amount:</label>
+                            <input type="number" class="form-control"  placeholder="Max=85% of Solar System COst" ng-model="loanamt" ng-change="checkMaxLoan()">
+                            <span ng-show="error != 'undefined' && error != 'null' && error != ''"  class="text-danger">{{error}}</span>
+                        </div>
+                        <div class="form-group">
+                             <label >Loan Tenure:</label>
+                              <rzslider  rz-slider-model="slider_floor_ceil.value" rz-slider-options="slider_floor_ceil.options" ></rzslider>
+                        </div>
+                        
+                           
+                        <!--<p ng-if="{{error}}">{{error}}</p>-->
+                    </div>
+                </div>
+                <div ng-if="formSubmitted" class="col-sm-6 form">
+                    <h1>Output</h1>
+  
+                    <form class="form-horizontal style-form" >
+                        <div class="form-group">
+                            <label >Solar System Size </label>
+                                <input type="number" class="form-control"  placeholder="Based on your consumption, but limited to what's possible on your roof (kW)" ng-model="solarsize" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label >Solar System Cost </label>
+                                <input type="number" class="form-control"  placeholder="Based on system size" ng-model="solarcost" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label >solar units produced / month </label>
+                                <input type="number" class="form-control"  placeholder="based on system size & daily production" ng-model="solarunits" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Monthly savings on electricity bill </label>
+                                <input type="number" class="form-control"  placeholder="based on daily solar production & tariff" ng-model="monthlysavings" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label >EMI </label>
+                                <input type="number" class="form-control"  placeholder="Based on Loan amount, tenure & interest rate" ng-model="monemi" disabled>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <br>
+            <div ng-show="formSubmitted && loanamt != 0 && loanamt != undefined">
+            <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
+       
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.js" defer></script>
+        <script src="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-nvd3/1.0.5/angular-nvd3.min.js"></script>
+        <script src="src/app.js"></script>
+    </body>
+</html>
+
