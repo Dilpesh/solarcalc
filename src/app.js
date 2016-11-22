@@ -18,8 +18,24 @@ app.controller('solcarController', function ($rootScope, $scope, $timeout) {
 
     $scope.locations = [{city: 'Banglore', rates: 5}, {city: 'Mumbai', rates: 7}, {city: 'Pune', rates: 9}];
 
+    // On submitting the input data
+     $scope.submit = function () {
+        if ($scope.selectedCity === '' || $scope.units === undefined || $scope.roofsize === undefined)
+        {
+            $scope.error = 'All fields are required.';
+            $scope.formSubmitted = false;
+        }
+        else
+        {
+            $scope.error = '';
+            $scope.formSubmitted = true;
+            $scope.entryEmpty = false;
+            $scope.calculator();
+        }
 
+    };
 
+    //after the form submit or on changing the input elements
     $scope.calculator = function () {
         if (!$scope.formSubmitted)
         {
@@ -52,39 +68,25 @@ app.controller('solcarController', function ($rootScope, $scope, $timeout) {
                     step: 100,
                     showSelectionBar: true,
                     onChange: function () {
-                        $scope.checkEmi();
+                        $scope.calculateEmi();
                     },
                     onEnd: function () {
-                        $scope.checkEmi();
+                        $scope.calculateEmi();
                     }
                 }
             };
             $timeout(function () {
                 $scope.$broadcast('rzSliderForceRender');
                 $rootScope.$broadcast('rzSliderForceRender');
-                $scope.checkEmi();
+                $scope.calculateEmi();
             });
 
         }
     };
 
-    $scope.submit = function () {
-        if ($scope.selectedCity === '' || $scope.units === undefined || $scope.roofsize === undefined)
-        {
-            $scope.error = 'All fields are required.';
-            $scope.formSubmitted = false;
-        }
-        else
-        {
-            $scope.error = '';
-            $scope.formSubmitted = true;
-            $scope.entryEmpty = false;
-            $scope.calculator();
-        }
-
-    };
-
-    $scope.checkEmi = function () {
+   
+   //Based on Loan amount and Loan tenure, EMI calculation
+    $scope.calculateEmi = function () {
         if ($scope.formSubmitted)
         {
             $scope.maxLoanAmt = (85 * $scope.solarcost) / 100;
@@ -108,6 +110,7 @@ app.controller('solcarController', function ($rootScope, $scope, $timeout) {
     };
 
 
+    //Configuring slider for Loan Tenure
     $scope.sliderLoanTenure = {
         value: 6,
         options: {
@@ -116,15 +119,15 @@ app.controller('solcarController', function ($rootScope, $scope, $timeout) {
             step: 1,
             showSelectionBar: true,
             onChange: function () {
-                $scope.checkEmi();
+                $scope.calculateEmi();
             },
             onEnd: function () {
-                $scope.checkEmi();
+                $scope.calculateEmi();
             }
         }
     };
 
-//chart details
+    //chart details
     $scope.options = {
         chart: {
             type: 'lineChart',
@@ -225,9 +228,6 @@ app.controller('solcarController', function ($rootScope, $scope, $timeout) {
                     values: noSolarArr,
                     key: 'No Solar, just electricity bills',
                     color: '#ff7f0e'
-//                    key: 'Another sine wave',
-//                    color: '#7777ff',
-//                    area: true      //area - set to true if you want this line to turn into a filled area chart.
                 },
                 {
                     values: solarNoLoanArr,
