@@ -1,8 +1,61 @@
 body {
-    background-color: #aaaaaa;
+    /*background-color: #aaaaaa;*/
+    background-color: #E3F2FD;
+    max-width:100%;
+}
+
+header {
+    text-align: center;
+    font-size: 3em;
+    padding: 7px;
+    background-color: #1E88E5;
+    color: aliceblue;
+    position: relative;
+}
+
+.mt {
+    margin-top: 15px;
+}
+
+/*Input form calculator head*/
+.calchead {
+    text-align: -webkit-center;
+    background-color: #2196F3;
+    border-radius:5px 5px 0px 0px; 
+    color: white;
+    padding: 15px;
+}
+
+/*Input form*/
+.inputform {
+    width: 330px;
+    margin: 60px auto 100px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.output {
+    background-color: #1e88e5;
+    color: aliceblue;
+    margin-top: 85px;
+}
+
+.inputform form, .output form {
+    padding: 15px;
+}
+
+.button-custom {
+    background-color: #2196F3;
+    color: white;
+    margin-top: 10px;
+}
+
+.nodisplay {
+    display: none;
 }
 
 
+/*Graph*/
 .tab-pane {
     padding-top: 10px;
 }
@@ -14,4 +67,15 @@ body {
 }
 .vertical-sliders > div {
     height: 250px;
+}
+
+
+@media (max-width: 768px) {
+    .graph {
+        margin-top: 25px;
+    }
+    
+    .output {
+        margin-top: 25px;
+    }
 }
